@@ -1,2 +1,10 @@
 {
+  "name": "Afterburn",
+  "scripts": {
+    "start": "npx ts-node src/game.ts"
+  },
+  "dependencies": {
+    "typescript": "4.2.3",
+    "ts-node": "9.1.1"
+  }
 }

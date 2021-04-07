@@ -1,6 +1,6 @@
-const Plane = require('./plane');
-const Coordinate = require('./coordinate');
-const { Gun, MissileLauncher } = require('./weapon');
+import { Plane } from "./plane";
+import { Coordinate } from "./coordinate";
+import { Gun, MissileLauncher } from "./weapon";
 
 
 let gun = new Gun({ bulletVelocity: 10 });
@@ -13,4 +13,7 @@ let plane = new Plane({
 plane.moveUp();
 console.info('Current position', { x: plane.coordinate.x, y: plane.coordinate.y });
 plane.chooseNextWeapon();
-plane.fireWeapon();
+
+let enemyCoordinate = new Coordinate({ x: 100, y: 100 });
+plane.fireWeapon(enemyCoordinate);
+console.info('Game over');

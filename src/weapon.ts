@@ -1,5 +1,11 @@
+import { Coordinate } from "./coordinate";
+
 class Ammo {
-  constructor({ velocity, coordinate: currentCoordinate, targetCoordinate }) {
+  currentCoordinate: Coordinate;
+  targetCoordinate: Coordinate;
+  velocity: number;
+
+  constructor({ velocity, currentCoordinate: currentCoordinate, targetCoordinate }) {
     this.currentCoordinate = currentCoordinate.clone();
     this.targetCoordinate = targetCoordinate.clone();
     this.velocity = velocity;
@@ -23,6 +29,8 @@ class Weapon {
 }
 
 class Gun extends Weapon {
+  bulletVelocity: number;
+
   constructor({ bulletVelocity }) {
     super();
     this.bulletVelocity = bulletVelocity;
@@ -31,7 +39,7 @@ class Gun extends Weapon {
   fire(currentCoordinate, targetCoordinate) {
     console.info('Firing gun');
     return new Bullet({
-      bulletVelocity: this.bulletVelocity,
+      velocity: this.bulletVelocity,
       currentCoordinate,
       targetCoordinate}).fire();
   }
@@ -41,7 +49,7 @@ class MissileLauncher extends Weapon {
   fire(currentCoordinate, targetCoordinate) { console.info('Firing missile'); }
 }
 
-module.exports = {
+export {
   Ammo,
   Bullet,
   Missile,
