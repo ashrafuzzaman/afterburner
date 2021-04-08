@@ -6,13 +6,13 @@ class Plane {
   coordinate: Coordinate;
   weapons: Weapon[];
   currentWeaponIndex: number;
-  velocity: number;
+  movementStrategy: MovementStrategy;
 
-  constructor({ velocity, weapons, coordinate }) {
+  constructor({ weapons, coordinate, movementStrategy }) {
     this.coordinate = coordinate.clone();
     this.weapons = weapons;
     this.currentWeaponIndex = 0;
-    this.velocity = velocity;
+    this.movementStrategy = movementStrategy;
   }
 
   //weapon
@@ -24,23 +24,57 @@ class Plane {
     this.currentWeaponIndex = (this.currentWeaponIndex + 1) % this.weapons.length;
   }
 
-  //movement
-   moveUp() {
-    this.coordinate.y += this.velocity;
+  setMovementStrategy(movementStrategy: MovementStrategy) {
+    this.movementStrategy = movementStrategy;
   }
-  moveDown() { }
-  moveLeft() { }
-  moveRight() { }
+  //movement
+  moveUp() {
+    this.coordinate = this.movementStrategy.moveUp(this.coordinate);
+  }
+  moveDown() {
+    this.coordinate = this.movementStrategy.moveDown(this.coordinate);
+  }
+  moveLeft() {
+    this.coordinate = this.movementStrategy.moveLeft(this.coordinate);
+  }
+  moveRight() {
+    this.coordinate = this.movementStrategy.moveRight(this.coordinate);
+  }
 }
 
-class MovementStrategy {
-  moveUp() { }
-  moveDown() { }
-  moveLeft() { }
-  moveRight() { }
+interface MovementStrategy {
+  moveUp(coordinate: Coordinate): Coordinate;
+  moveDown(coordinate: Coordinate): Coordinate;
+  moveLeft(coordinate: Coordinate): Coordinate;
+  moveRight(coordinate: Coordinate): Coordinate;
+}
+
+class DefaultMovementStrategy implements MovementStrategy {
+  velocity: number;
+
+  constructor(velocity) {
+    this.velocity = velocity;
+  }
+
+  moveUp(coordinate: Coordinate): Coordinate {
+    return new Coordinate({ x: coordinate.x, y: coordinate.y + this.velocity });
+  }
+
+  moveDown(coordinate: Coordinate): Coordinate {
+    return new Coordinate({ x: coordinate.x, y: coordinate.y - this.velocity });
+  }
+
+  moveRight(coordinate: Coordinate): Coordinate {
+    return new Coordinate({ x: coordinate.x + this.velocity, y: coordinate.y });
+  }
+
+  moveLeft(coordinate: Coordinate): Coordinate {
+    return new Coordinate({ x: coordinate.x - this.velocity, y: coordinate.y });
+  }
 }
 
 
 export {
-  Plane
+  Plane,
+  DefaultMovementStrategy
 };

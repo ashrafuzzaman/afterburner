@@ -1,4 +1,4 @@
-import { Plane } from "./plane";
+import { Plane, DefaultMovementStrategy } from "./plane";
 import { Coordinate } from "./coordinate";
 import { Gun, MissileLauncher } from "./weapon";
 
@@ -6,9 +6,9 @@ import { Gun, MissileLauncher } from "./weapon";
 let gun = new Gun({ bulletVelocity: 10 });
 let missileLauncher = new MissileLauncher();
 let plane = new Plane({
-  velocity: 10,
   weapons: [gun, missileLauncher],
-  coordinate: new Coordinate({ x: 0, y: 0 })
+  coordinate: new Coordinate({ x: 0, y: 0 }),
+  movementStrategy: new DefaultMovementStrategy({ velocity: 10 })
 });
 plane.moveUp();
 console.info('Current position', { x: plane.coordinate.x, y: plane.coordinate.y });
